@@ -16,7 +16,8 @@ def laptime_to_ms(minutes: int, seconds: int, millis: int) -> int:
     >>> laptime_to_ms(1, 23, 456)
     83456
     """
-    raise NotImplementedError("Chapter 1: implement laptime_to_ms")
+    return (minutes*MS_PER_MINUTE +seconds*MS_PER_SECOND+millis)
+    
 
 
 def ms_to_parts(ms: int) -> tuple[int, int, int]:
@@ -25,24 +26,30 @@ def ms_to_parts(ms: int) -> tuple[int, int, int]:
     >>> ms_to_parts(83456)
     (1, 23, 456)
     """
-    raise NotImplementedError("Chapter 1: implement ms_to_parts")
+    minutes,rest= divmod(ms, MS_PER_MINUTE) #one minutes has 60X1000 milliseconds
+    seconds,millis=divmod(rest,MS_PER_SECOND)  #One second has 1000 milliseconds
+    return minutes,seconds,millis
 
 
 def kmh_to_ms(kmh: float) -> float:
     """Convert km/h to metres per second."""
-    raise NotImplementedError("Chapter 1: implement kmh_to_ms")
+    return kmh *5/18
 
 
 def avg_speed_kmh(track_km: float, lap_ms: int) -> float:
     """Average speed over a lap, rounded to 3 decimal places."""
-    raise NotImplementedError("Chapter 1: implement avg_speed_kmh")
+    hours=lap_ms/MS_PER_SECOND/3600
+    return round(track_km/hours,3)
+    
 
 
 def fuel_needed_kg(laps: int, kg_per_lap: float, margin_laps: int) -> float:
     """Fuel to load for a race distance plus a safety margin of extra laps."""
-    raise NotImplementedError("Chapter 1: implement fuel_needed_kg")
+    return (laps+margin_laps)*kg_per_lap
+
+    
 
 
 def is_faster(a_ms: int, b_ms: int) -> bool:
     """True if lap a is strictly faster than lap b."""
-    raise NotImplementedError("Chapter 1: implement is_faster")
+    return (a_ms<b_ms)
