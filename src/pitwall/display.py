@@ -10,7 +10,8 @@ def format_laptime(ms: int) -> str:
     >>> format_laptime(83456)
     '1:23.456'
     """
-    raise NotImplementedError("Chapter 2: implement format_laptime")
+    minutes,seconds,millis= ms_to_parts
+    return f"{minutes}:{seconds:02d}:{millis:03d}"
 
 
 def format_gap(gap_ms: int) -> str:
@@ -19,7 +20,7 @@ def format_gap(gap_ms: int) -> str:
     >>> format_gap(1234)
     '+1.234'
     """
-    raise NotImplementedError("Chapter 2: implement format_gap")
+    return f"{gap_ms/1000:+}"# divide by 1000 and then add positive sign in the begining
 
 
 def driver_code(full_name: str) -> str:

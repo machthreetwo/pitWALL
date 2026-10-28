@@ -28,7 +28,7 @@ def ms_to_parts(ms: int) -> tuple[int, int, int]:
     """
     minutes,rest= divmod(ms, MS_PER_MINUTE) #one minutes has 60X1000 milliseconds
     seconds,millis=divmod(rest,MS_PER_SECOND)  #One second has 1000 milliseconds
-    return minutes,seconds,millis
+    return minutes,seconds,millis # failed first test due to absence of this line
 
 
 def kmh_to_ms(kmh: float) -> float:
@@ -53,3 +53,7 @@ def fuel_needed_kg(laps: int, kg_per_lap: float, margin_laps: int) -> float:
 def is_faster(a_ms: int, b_ms: int) -> bool:
     """True if lap a is strictly faster than lap b."""
     return (a_ms<b_ms)
+
+def pace_delta_pct(a_ms,b_ms) -> int:
+    """how much slower a is than b as a percentage"""
+    
