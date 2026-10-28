@@ -11,7 +11,7 @@ def format_laptime(ms: int) -> str:
     '1:23.456'
     """
     minutes,seconds,millis= ms_to_parts(ms)
-    return f"{minutes}:{seconds:02d}:{millis:03d}"
+    return f"{minutes}:{seconds:02d}.{millis:03d}" # error in seperation symbol
 
 
 def format_gap(gap_ms: int) -> str:
@@ -20,7 +20,7 @@ def format_gap(gap_ms: int) -> str:
     >>> format_gap(1234)
     '+1.234'
     """
-    return f"{gap_ms/1000:+}"# divide by 1000 and then add positive sign in the begining
+    return f"{gap_ms/1000:+.3f}"# divide by 1000 and then add positive sign in the begining
 
 
 def driver_code(full_name: str) -> str:
@@ -29,9 +29,8 @@ def driver_code(full_name: str) -> str:
     >>> driver_code("Max Verstappen")
     'VER'
     """
-    a= full_name[-1]
-    b=a[0:3]
-    return b.upper()
+    a= full_name.strip().split()[-1] #first remove white spaces then split
+    return a[:3].upper()
 
 
 def timing_row(pos: int, name: str, lap_ms: int, gap_ms: int) -> str:
@@ -40,7 +39,7 @@ def timing_row(pos: int, name: str, lap_ms: int, gap_ms: int) -> str:
     >>> timing_row(1, "Lando Norris", 83456, 0)
     ' 1  NOR   1:23.456    +0.000'
     """
-    return f"{pos:>2} {driver_code(name):<3} {format_laptime(lap_ms):>9}{format_gap(gap_ms):>8}"
+    return f"{pos:>2}  {driver_code(name):<3}  {format_laptime(lap_ms):>9}  {format_gap(gap_ms):>8}" #needed 2 spaces iin between
 
 
 def parse_laptime(text: str) -> int:
