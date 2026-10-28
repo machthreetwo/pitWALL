@@ -10,7 +10,7 @@ def format_laptime(ms: int) -> str:
     >>> format_laptime(83456)
     '1:23.456'
     """
-    minutes,seconds,millis= ms_to_parts
+    minutes,seconds,millis= ms_to_parts(ms)
     return f"{minutes}:{seconds:02d}:{millis:03d}"
 
 
@@ -29,7 +29,9 @@ def driver_code(full_name: str) -> str:
     >>> driver_code("Max Verstappen")
     'VER'
     """
-    raise NotImplementedError("Chapter 2: implement driver_code")
+    a= full_name[-1]
+    b=a[0:3]
+    return b.upper()
 
 
 def timing_row(pos: int, name: str, lap_ms: int, gap_ms: int) -> str:
@@ -38,9 +40,11 @@ def timing_row(pos: int, name: str, lap_ms: int, gap_ms: int) -> str:
     >>> timing_row(1, "Lando Norris", 83456, 0)
     ' 1  NOR   1:23.456    +0.000'
     """
-    raise NotImplementedError("Chapter 2: implement timing_row")
+    return f"{pos:>2} {driver_code(name):<3} {format_laptime(lap_ms):>9}{format_gap(gap_ms):>8}"
 
 
 def parse_laptime(text: str) -> int:
     """Inverse of format_laptime: '1:23.456' -> 83456. Surrounding whitespace is ignored."""
-    raise NotImplementedError("Chapter 2: implement parse_laptime")
+    min,rest=text.strip().split(":")
+    sec,milli=rest.split(".")
+    return laptime_to_ms(int(min),int(sec),int(milli))
