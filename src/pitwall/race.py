@@ -4,7 +4,16 @@
 
 def tyre_life(compound: str) -> int:
     """Laps until the tyre falls off the cliff. 0 for an unknown compound."""
-    raise NotImplementedError("Chapter 3: implement tyre_life")
+    match compound:
+        case "soft":
+            return 18
+        case "medium":
+            return 28
+        case "hard":
+            return 44
+        case _:
+            return 0
+    
 
 
 def tyre_state(age_laps: int, compound: str) -> str:
@@ -12,12 +21,22 @@ def tyre_state(age_laps: int, compound: str) -> str:
 
     fresh: age <= 3; cliff: age >= life; worn: age >= 70% of life; else ok.
     """
-    raise NotImplementedError("Chapter 3: implement tyre_state")
+    if tyre_life==0:
+        return "unknown"
+    elif age_laps<=3:
+        return "fresh"
+    elif age_laps>=tyre_life:
+        return "cliff"
+    elif age_laps>0.7*tyre_life:
+        return "worn"
+    else:
+        return "ok"
 
 
 def stint_laptimes(base_ms: int, laps: int, deg_ms_per_lap: int) -> list[int]:
     """Lap times for a stint where each lap is deg_ms_per_lap slower than the last."""
-    raise NotImplementedError("Chapter 3: implement stint_laptimes")
+    
+    
 
 
 def first_lap_over(laptimes: list[int], threshold_ms: int) -> int:
