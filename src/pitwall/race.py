@@ -55,7 +55,7 @@ def laps_until_cliff(compound: str, age_laps: int) -> int:
     """Laps left before the cliff (never negative). Uses a while loop on purpose."""
     life=tyre_life(compound) #finds out the tyre life by compound using tyrelife function
     remaining=0
-    while(age_laps+remaining<life):
+    while(age_laps<life):
         remaining+=1
     return remaining
 

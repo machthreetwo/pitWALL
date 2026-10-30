@@ -28,7 +28,20 @@ def simulate_lap(
     Keyword-only arguments (after *) cannot be passed by position, so a call
     reads like a spec: simulate_lap(90_000, 5, deg_ms=60).
     """
-    raise NotImplementedError("Chapter 4: implement simulate_lap")
+    """• Everything after tyre_age must be keyword-only (a * in the signature).
+simulate_lap(90_000, 5, 60) must raise TypeError .
+• If noise_ms is non-zero, add rng.gauss(0, noise_ms) . If rng is None , create a new
+random.Random() .
+• If noise_ms is 0, do not draw any random number.
+• The same seeded rng must give the same result: simulate_lap(90_000, 0, noise_ms=200,
+rng=random.Random(1)) is identical every time."""
+ 
+    lap=base_ms+deg_ms*tyre_age+fuel_kg*kg_effect_ms
+    if noise_ms: #checks truthliness if noise_ms is really not 0
+        rng=rng or random.Random()
+        lap+=rng.gauss(0,noise_ms)
+    return round(lap)
+
 
 
 def simulate_stint(
@@ -40,19 +53,31 @@ def simulate_stint(
     **lap_kwargs,
 ) -> list[int]:
     """Run consecutive laps on one set of tyres. Extra kwargs go straight to simulate_lap."""
-    raise NotImplementedError("Chapter 4: implement simulate_stint")
+    times=[]
+    fuel=fuel_start_kg
+    for i in range(laps):
+        times.append(simulate_lap(base_ms,start_age+i,fuel_kg=fuel,**lap_kwargs))
+        fuel=max(0.0, fuel-burn_kg_per_lap)
+    return times
+
 
 
 def simulate_race(
     drivers: dict[str, int], laps: int, *, seed: int | None = None, **lap_kwargs
 ) -> dict[str, list[int]]:
     """Simulate every driver over the same distance with one shared, seeded RNG."""
-    raise NotImplementedError("Chapter 4: implement simulate_race")
+    rng=random.Random(seed)
+    return {
+        name: simulate_stint(base,laps,rng=rng,**lap_kwargs)
+        for name,base in drivers.items()
+    }
 
 
 def best_of(*laptimes: int) -> int:
     """Fastest of any number of lap times passed as separate arguments."""
-    raise NotImplementedError("Chapter 4: implement best_of")
+    if not laptimes:
+        raise ValueError("at least one lap time is required")
+    return min(laptimes)
 
 
 def log_lap(lap_ms: int, log: list[int] | None = None) -> list[int]:
@@ -60,4 +85,7 @@ def log_lap(lap_ms: int, log: list[int] | None = None) -> list[int]:
 
     The tempting signature `log=[]` shares ONE list across every call.
     """
-    raise NotImplementedError("Chapter 4: implement log_lap")
+    if log is None:
+        log=[]
+    log.append(lap_ms)
+    return log
