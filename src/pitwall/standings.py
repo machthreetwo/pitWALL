@@ -20,7 +20,10 @@ def classify(race: Race) -> list[tuple[int, str, int]]:
 
 def gaps_to_leader(classification: list[tuple[int, str, int]]) -> dict[str, int]:
     """Gap in ms from each driver to the winner (winner's gap is 0)."""
-    raise NotImplementedError("Chapter 5: implement gaps_to_leader")
+    if not classification:
+        return {}
+    leader_total=classification[0][2]
+    return{driver:total-leader_total for _, driver,total in classification}
 
 
 def fastest_lap(race: Race) -> tuple[str, int, int]:
