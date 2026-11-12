@@ -6,7 +6,7 @@ Race = dict[str, list[int]]
 
 def total_times(race: Race) -> dict[str, int]:
     """Total race time per driver."""
-    raise NotImplementedError("Chapter 5: implement total_times")
+    return {driver: sum(laps) for driver, laps in race.items()}
 
 
 def classify(race: Race) -> list[tuple[int, str, int]]:
@@ -14,7 +14,8 @@ def classify(race: Race) -> list[tuple[int, str, int]]:
 
     Ties are broken alphabetically by driver name so output is deterministic.
     """
-    raise NotImplementedError("Chapter 5: implement classify")
+    ordered = sorted(total_times(race).items(),key=lambda item:(item[1],item[2]))
+    return[(pos,driver,total)for pos,(driver,total) in enumerate(ordered,start=1)]
 
 
 def gaps_to_leader(classification: list[tuple[int, str, int]]) -> dict[str, int]:

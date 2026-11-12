@@ -74,7 +74,7 @@ def simulate_race(
 
 
 def best_of(*laptimes: int) -> int:
-    """Fastest of any number of lap times passed as separate arguments."""
+    """Fastest of any number of lap times passed as separate arguments.""" 
     if not laptimes:
         raise ValueError("at least one lap time is required")
     return min(laptimes)
